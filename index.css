@@ -821,3 +821,9 @@ img {
   margin-right: 5px;
   margin-bottom: 4px;
 }
+
+.player-container {
+  width: 200px;
+  position: absolute;
+  z-index: 100;
+}
