@@ -827,3 +827,18 @@ img {
   position: absolute;
   z-index: 100;
 }
+
+.egg-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background-color: #00000080;
+  border: none;
+  pointer-events: auto;
+  touch-action: auto;
+  align-items: center;
+  display: flex;
+}
