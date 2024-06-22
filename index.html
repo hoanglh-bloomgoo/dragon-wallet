@@ -28,6 +28,8 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
     />
     <title>DragonWallet</title>
+    <script src="https://unpkg.com/@esotericsoftware/spine-player@4.1.*/dist/iife/spine-player.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.1.*/dist/spine-player.css">
     <link rel="stylesheet" href="index.css" />
   </head>
 
@@ -39,6 +41,7 @@
     data-new-gr-c-s-loaded="14.1174.0"
   >
     <div id="app">
+      <div id="player-container" style="width: 640px; height: 480px;"></div>
       <section
         id="section-main"
         class="main-wrapper-background main-wrapper"
@@ -53,19 +56,12 @@
                 </div>
                 <p class="wave-balance">1</p>
               </div>
-              <div class="dropdown">
-                <button class="dropbtn">Import wallet</button>
-                <div id="myDropdown" class="dropdown-content">
-                  <p>Import wallet</p>
-                  <p>Create new wallet</p>
-                </div>
-              </div>
               <div
                 class="right flex flex-row justify-center items-center item-bl-2 relative cursor-pointer"
               >
                 <div class="fish-block absolute">
                   <img
-                    src="./assets/img/ball.png"
+                    src="./assets/img/gem.png"
                     style="height: 36px; margin-left: 4px"
                     alt=""
                   />
@@ -83,7 +79,7 @@
             <div class="absolute top-[60px] w-[100%] flex justify-between">
               <div class="w-[100px] h-[100px] cursor-pointer z-10">
                 <img src="./assets/img/chest.png" width="68" />
-              </div class="flex ">
+              </div>
               <div
                 id="auction-count-down"
                 class="w-[100px] relative h-[100px] flex justify-center align-middle cursor-pointer z-10"
@@ -442,6 +438,13 @@
         </div>
       </section>
     </div>
+  
   </div>
   </body>
+  <script>
+    new spine.SpinePlayer("player-container", {
+      jsonUrl: "assets/Dragon_Skin.json",
+      atlasUrl: "assets/Dragon_Skin.atlas",
+    });
+  </script>
 </html>
