@@ -28,9 +28,9 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
     />
     <title>DragonWallet</title>
-    <script src="https://unpkg.com/@esotericsoftware/spine-player@4.1.*/dist/iife/spine-player.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.1.*/dist/spine-player.css">
     <link rel="stylesheet" href="index.css" />
+    <script src="https://unpkg.com/@esotericsoftware/spine-player@4.1.*/dist/iife/spine-player.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.1.*/dist/spine-player.min.css">
   </head>
 
   <body
@@ -46,10 +46,18 @@
         class="main-wrapper-background main-wrapper"
         style="--16b6b170: 73px; --01be8219: 300px"
       >
-      
-      <div  class="egg-backdrop" style="">
-        <div id="player-container" class="player-container"></div>
-      </div>
+        <div class="open-egg">
+          <div class="progress">
+<!--            <span>Bronze</span>-->
+            <div class="bar">
+              <div class="progress-value"></div>
+            </div>
+<!--            <span>Diamond</span>-->
+          </div>
+
+        <div id="player-container"></div>
+          <div  class="open-egg-backdrop" style=""></div>
+        </div>
         <div class="block-data h-full">
           <div class="head flex flex-col justify-between relative">
             <div class="flex item-bl-1 flex-row items-center">
@@ -441,18 +449,83 @@
         </div>
       </section>
     </div>
-  
   </div>
+    <script>
+      var jsonUrl = "assets/Dragon_Skin.json";
+      var atlasUrl = "assets/Dragon_Skin.atlas";
+      // var jsonUrl = "http://localhost:63342/dragon-wallet-1/assets/Dragon_Skin.json";
+      // var atlasUrl = "http://localhost:63342/dragon-wallet-1/assets/Dragon_Skin.atlas";
+      var backgroundColor = "#00000000"
+      var skin = ["Dragon_1", "Dragon_2", "Dragon_3", "Dragon_4", "Dragon_5"]
+      var backgroundColorBar = ["#B87333", "#B87333", "#C0C0C0", "#FFD700", "#E5E4E2", "#B9F2FF"]
+      var player = new spine.SpinePlayer("player-container", {
+        jsonUrl: jsonUrl,
+        atlasUrl: atlasUrl,
+        animation: "Idle2",
+        skin: skin[(Math.floor(Math.random() * skin.length))],
+        defaultMix: 0,
+        showControls: false,
+        premultipliedAlpha: false,
+        backgroundColor: backgroundColor,
+        alpha: true,
+        showLoading: false,
+        viewport: {
+          padTop: "190%",
+          padBottom: "110%"
+        },
+        success: function (player) {
+          player.animationState.addListener({
+            complete: function () {
+              var animationName = player.animationState.getCurrent(0).animation.name;
+              if (animationName === "Bloom1") {
+                player.animationState.setAnimation(0, "Bloom1_Loop", true)
+              } else if (animationName === "Bloom2") {
+                player.animationState.setAnimation(0, "Bloom2_Loop", true)
+              } else if (animationName === "Bloom3") {
+                player.animationState.setAnimation(0, "Bloom3_Loop", true)
+              }else if (animationName === "Bloom4") {
+                player.animationState.setAnimation(0, "Bloom4_Loop", true)
+              }else if (animationName === "Bloom5") {
+                player.animationState.setAnimation(0, "Bloom5_Loop", true)
+              }
+            }
+          });
+        }
+      });
+      player.speed = 1
+      var stepBloom = 0
+      function playAttackAnimation(stepBloom) {
+        if (stepBloom === 1) {
+          player.animationState.setAnimation(0, "Bloom1", false)
+          player.mixDuration = 0.2
+        } else if (stepBloom === 2) {
+          player.animationState.setAnimation(0, "Bloom2", false)
+          player.mixDuration = 0.2
+        }else if (stepBloom === 3) {
+          player.animationState.setAnimation(0, "Bloom3", false)
+          player.mixDuration = 0.2
+        }else if (stepBloom === 4) {
+          player.animationState.setAnimation(0, "Bloom4", false)
+          player.mixDuration = 0.2
+        }else if (stepBloom === 5) {
+          player.animationState.setAnimation(0, "Bloom5", false)
+          player.mixDuration = 0.2
+        }
+      }
+
+      var clickScope = document.getElementById("player-container")
+
+      clickScope.onclick = function () {
+        if(stepBloom < 5) {
+        stepBloom +=1
+          const progress = document.querySelector(".progress");
+          const value = Math.floor(stepBloom*20);
+          const bar = progress.querySelector('.bar');
+
+          progress.style.setProperty("--progress", `${value}%`);
+        playAttackAnimation(stepBloom)
+        }
+      }
+    </script>
   </body>
-  <script>
-    new spine.SpinePlayer("player-container", {
-      jsonUrl: "assets/Dragon_Skin.json",
-      atlasUrl: "assets/Dragon_Skin.atlas",
-      animation: "Idle2",
-      premultipliedAlpha: false,
-      showControls: false,
-      backgroundAlpha: 0
-    });
-    
-  </script>
 </html>
